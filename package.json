@@ -1,18 +1,22 @@
 {
   "name": "javascript-unit-testing",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest --coverage",
     "preview": "vite preview",
     "commit": "nhb-commit",
     "count": "nhb-count",
     "delete": "nhb-delete"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "3.2.4",
     "nhb-scripts": "^1.8.23",
     "vite": "^7.0.6",
     "vitest": "^3.2.4"
