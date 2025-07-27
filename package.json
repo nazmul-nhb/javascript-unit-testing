@@ -1,11 +1,12 @@
 {
   "name": "javascript-unit-testing",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "vitest",
     "preview": "vite preview",
     "commit": "nhb-commit",
     "count": "nhb-count",
@@ -13,7 +14,8 @@
   },
   "devDependencies": {
     "nhb-scripts": "^1.8.23",
-    "vite": "^7.0.6"
+    "vite": "^7.0.6",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "delay": "^6.0.0"
