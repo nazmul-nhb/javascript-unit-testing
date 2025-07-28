@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, it } from "vitest";
-import { getCoupons } from "../src/core";
+import { calculateDiscount, getCoupons } from "../src/core";
 
 
 describe("getCoupons", () => {
@@ -35,3 +35,29 @@ describe("getCoupons", () => {
 
 
 });
+
+describe('calculateDiscount', () => {
+    it('should return 9 after applying "SAVE10" coupon', () => {
+        expect(calculateDiscount(10, 'SAVE10')).toBe(9)
+    });
+
+    it('should return 8 after applying "SAVE20" coupon', () => {
+        expect(calculateDiscount(10, 'SAVE20')).toBe(8)
+    });
+
+    it('should handle non-numeric price', () => {
+        expect(calculateDiscount("10", 'SAVE10')).toMatch(/invalid/i)
+    });
+
+    it('should handle negative price', () => {
+        expect(calculateDiscount(-10, 'SAVE10')).toMatch(/invalid/i)
+    });
+
+    it('should handle non-string discount', () => {
+        expect(calculateDiscount(10, 100)).toMatch(/invalid/i)
+    });
+
+    it('should handle invalid discount', () => {
+        expect(calculateDiscount(10, 'XYZ')).toBe(10)
+    });
+})

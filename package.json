@@ -1,7 +1,7 @@
 {
   "name": "javascript-unit-testing",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "coverage": "vitest --coverage",
+    "coverage:ui": "start coverage/index.html",
     "preview": "vite preview",
     "commit": "nhb-commit",
     "count": "nhb-count",
