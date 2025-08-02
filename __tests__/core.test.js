@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, it } from "vitest";
-import { calculateDiscount, getCoupons } from "../src/core";
+import { calculateDiscount, canDrive, getCoupons, isPriceInRange } from "../src/core";
 
 
 describe("getCoupons", () => {
@@ -60,4 +60,42 @@ describe('calculateDiscount', () => {
     it('should handle invalid discount', () => {
         expect(calculateDiscount(10, 'XYZ')).toBe(10)
     });
-})
+});
+
+// Data driven/Parameterized test
+describe('canDrive', () => {
+    it('should return error for invalid country code', () => {
+        expect(canDrive(20, 'FR')).toMatch(/invalid/i);
+    });
+
+    const cases = [
+        { age: 15, country: 'US', result: false },
+        { age: 16, country: 'US', result: true },
+        { age: 17, country: 'US', result: true },
+        { age: 16, country: 'UK', result: false },
+        { age: 17, country: 'UK', result: true },
+        { age: 18, country: 'UK', result: true }
+    ];
+
+    it.each(cases)('should return $result for $age, $country', ({ age, country, result }) => {
+        expect(canDrive(age, country)).toBe(result);
+    });
+});
+
+describe('isPriceInRange', () => {
+    const cases = [
+        { scenario: 'price < min', price: -10, result: false },
+        { scenario: 'price = min', price: 0, result: true },
+        {
+            scenario: 'price between min and max',
+            price: 50,
+            result: true
+        },
+        { scenario: 'price = max', price: 100, result: true },
+        { scenario: 'price > max', price: 200, result: false }
+    ];
+
+    it.each(cases)('should return $result when $scenario', ({ price, result }) => {
+        expect(isPriceInRange(price, 0, 100)).toBe(result);
+    });
+});
