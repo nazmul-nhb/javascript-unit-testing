@@ -1,7 +1,7 @@
 // @ts-check
 
 import { describe, expect, it } from "vitest";
-import { calculateDiscount, canDrive, getCoupons, isPriceInRange } from "../src/core";
+import { calculateDiscount, canDrive, fetchData, getCoupons, isPriceInRange } from "../src/core";
 
 
 describe("getCoupons", () => {
@@ -97,5 +97,31 @@ describe('isPriceInRange', () => {
 
     it.each(cases)('should return $result when $scenario', ({ price, result }) => {
         expect(isPriceInRange(price, 0, 100)).toBe(result);
+    });
+});
+
+// Test asynchronous functions
+// Case: Rejected
+describe('fetchData', () => {
+    it('should return a promise that is rejected', async () => {
+        try {
+            await fetchData();
+        } catch (error) {
+            expect(error).toHaveProperty('reason');
+            expect(error.reason).toMatch(/fail/i);
+        }
+    });
+});
+
+// Case: Resolved
+describe('fetchData', async () => {
+    const result = /** @type {number[]} */ (await fetchData());
+
+    it('should return a promise that will resolve to an array of numbers', () => {
+        expect(Array.isArray(result)).toBeTruthy();
+    });
+
+    it.each(result)('%s should be of type number', (element) => {
+        expect(typeof element).toBe('number')
     });
 });
