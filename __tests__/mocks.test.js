@@ -1,12 +1,13 @@
 // @ts-check
 
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getExchangeRate } from '../src/libs/currency';
-import { getPriceInCurrency, getShippingInfo, renderPage, signUp, submitOrder } from '../src/mocking';
+import { getPriceInCurrency, getShippingInfo, login, renderPage, signUp, submitOrder } from '../src/mocking';
 import { getShippingQuote } from '../src/libs/shipping';
 import { trackPageView } from '../src/libs/analytics';
 import { charge } from '../src/libs/payment';
 import { sendEmail } from '../src/libs/email';
+import security from '../src/libs/security';
 
 // vi.fn();
 // mockReturnValue
@@ -125,6 +126,13 @@ vi.mock('../src/libs/email.js', async (importOriginal) => {
 describe('signUp', () => {
     const email = 'name@domain.com';
 
+    // Can be configured through config:
+    // beforeEach(() => {
+    //     // vi.mocked(sendEmail).mockClear();
+    //     // or
+    //     vi.clearAllMocks();
+    // });
+
     it('should return false if email is not valid', async () => {
         const result = await signUp('a');
 
@@ -140,9 +148,21 @@ describe('signUp', () => {
     it('should send the welcome email if email is valid', async () => {
         await signUp(email);
 
-        expect(sendEmail).toHaveBeenCalled();
+        expect(sendEmail).toHaveBeenCalledOnce();
         const args = vi.mocked(sendEmail).mock.calls[0];
         expect(args[0]).toBe(email);
         expect(args[1]).toMatch(/welcome/i);
+    });
+});
+
+describe('login', () => {
+    it('should email the one-time login code', async () => {
+        const email = 'name@domain.com';
+        const spy = vi.spyOn(security, 'generateCode');
+
+        await login(email);
+
+        const securityCode = spy.mock.results[0].value.toString();
+        expect(sendEmail).toHaveBeenCalledWith(email, securityCode);
     });
 });
