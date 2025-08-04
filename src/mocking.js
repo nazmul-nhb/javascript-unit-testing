@@ -53,11 +53,10 @@ export async function login(email) {
 
 // Lesson: Mocking dates
 export function isOnline() {
-  const availableHours = [8, 20];
-  const [open, close] = availableHours;
+  const [open, close] = [8, 20];
   const currentHour = new Date().getHours();
 
-  return currentHour >= open && currentHour <= close;
+  return currentHour >= open && currentHour < close;
 }
 
 // Exercise

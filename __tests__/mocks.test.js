@@ -2,7 +2,7 @@
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getExchangeRate } from '../src/libs/currency';
-import { getPriceInCurrency, getShippingInfo, login, renderPage, signUp, submitOrder } from '../src/mocking';
+import { getDiscount, getPriceInCurrency, getShippingInfo, isOnline, login, renderPage, signUp, submitOrder } from '../src/mocking';
 import { getShippingQuote } from '../src/libs/shipping';
 import { trackPageView } from '../src/libs/analytics';
 import { charge } from '../src/libs/payment';
@@ -164,5 +164,44 @@ describe('login', () => {
 
         const securityCode = spy.mock.results[0].value.toString();
         expect(sendEmail).toHaveBeenCalledWith(email, securityCode);
+    });
+});
+
+// ! Mocking Date
+describe('isOnline', () => {
+    it('should return false if current hour is outside opening and closing hours', () => {
+        // Simulate System time
+        vi.setSystemTime('2025-08-04 07:59');
+        expect(isOnline()).toBe(false);
+
+        vi.setSystemTime('2025-08-04 20:01');
+        expect(isOnline()).toBe(false);
+    });
+
+    it('should return true if current hour is within opening and closing hours', () => {
+        vi.setSystemTime('2025-08-04 08:00');
+        expect(isOnline()).toBe(true);
+
+        vi.setSystemTime('2025-08-04 19:59');
+        expect(isOnline()).toBe(true);
+    });
+});
+
+// ? Exercise
+describe('getDiscount', () => {
+    it('should return 0.2 on Christmas day', () => {
+        vi.setSystemTime('2025-12-25 00:01');
+        expect(getDiscount()).toBe(0.2);
+
+        vi.setSystemTime('2025-12-25 23:59');
+        expect(getDiscount()).toBe(0.2);
+    });
+
+    it('should return 0 on any other day', () => {
+        vi.setSystemTime('2025-12-26 00:01');
+        expect(getDiscount()).toBe(0);
+
+        vi.setSystemTime('2025-08-04 00:01');
+        expect(getDiscount()).toBe(0);
     });
 });
