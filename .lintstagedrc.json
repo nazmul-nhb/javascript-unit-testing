@@ -1,5 +1,3 @@
 {
-    "*.+(js|ts)": [
-        "prettier --write"
-    ]
+	"*.+(js|ts)": ["prettier --write"]
 }

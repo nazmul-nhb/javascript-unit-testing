@@ -1,7 +1,7 @@
 {
   "name": "javascript-unit-testing",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,8 @@
     "commit": "nhb-commit",
     "count": "nhb-count",
     "delete": "nhb-delete",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "nhb-format"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "3.2.4",
