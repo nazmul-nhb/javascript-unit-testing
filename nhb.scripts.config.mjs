@@ -3,16 +3,16 @@
 import { defineScriptConfig } from 'nhb-scripts';
 
 export default defineScriptConfig({
-    format: {
-        args: ['--write'],
-        files: ['.'],
-        ignorePath: '.prettierignore',
-    },
-    commit: {
-        runFormatter: false,
-    },
-    count: {
-        defaultPath: 'src',
-        excludePaths: ['node_modules', 'dist', '__tests__']
-    }
+	format: {
+		args: ['--write'],
+		files: ['.'],
+		ignorePath: '.prettierignore',
+	},
+	commit: {
+		runFormatter: false,
+	},
+	count: {
+		defaultPath: 'src',
+		excludePaths: ['node_modules', 'dist', '__tests__'],
+	},
 });
